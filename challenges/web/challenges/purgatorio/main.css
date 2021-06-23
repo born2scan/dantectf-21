@@ -1,0 +1,48 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #421107;
+}
+
+.container {
+    display: block;
+    position: relative;
+    justify-content: center;
+}
+
+.paper-container {
+    margin: 3rem auto;
+    text-align: center;
+    display: block;
+    position: relative;
+    width: 960px;
+    background: url(images/pap_body.jpg) repeat-y;
+}
+
+.paper-header {
+    left: 0;
+    position: absolute;
+    width: 960px;
+}
+.paper-body {
+    padding: 10rem 1rem;
+    position: relative;
+    display: block;
+    z-index: 10;
+
+}
+.paper-footer {
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    width: 960px;
+}
+.flag-link {
+    display: block;
+    position: relative;
+}
+.try-harder {
+    margin-top: 6rem;
+    margin-bottom: 11rem;
+}

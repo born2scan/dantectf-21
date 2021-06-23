@@ -1,0 +1,16 @@
+html {
+    height: 100vh;
+    background: #707070;
+}
+.mySlides {
+    height: 640px;
+    display:none;
+}
+body {
+    margin-top: 3rem;
+}
+.w3-content {
+    border: 2px solid #c9c9c9;
+}
+
+/* Part 2: qu3LL4_f0N73_Ch3_5p4ND1_d1_ */

@@ -1,0 +1,40 @@
+.program morse
+    pull block       ; Pull 32 bits from the FIFO to the OSR (block until available)
+    out y, 32        ; Store 32 bits (uint32) in the Y register, to be used as delay between chars
+
+.wrap_target
+    pull block
+    out x, 32        ; Load char cycle length from OSR
+    jmp !x neg_val   ; If x == 0, do not turn the LED on and load another number
+    set pins, 1      ; Turn LED on
+    jmp in_char
+neg_val:
+    pull block       ; Load the next number to use as a delay with the LED off (pause)
+    out x, 32
+in_char:
+    jmp x-- in_char  ; Delay for (x + 1) cycles
+    set pins, 0      ; Turn LED off    
+    mov x, y         ; Load the delay between chars into X
+aft_char:
+    jmp x-- aft_char ; Delay between chars
+.wrap
+
+
+% c-sdk {
+void morse_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    // Claim single GPIO pin
+    pio_gpio_init(pio, pin);
+    // Set single as output
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+
+    // Set the single pin as the SET pins
+    pio_sm_config c = morse_program_get_default_config(offset);
+    sm_config_set_set_pins(&c, pin, 1);
+
+    // Disable the RX FIFO to double the TX FIFO
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+
+    // Init the state machine
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
